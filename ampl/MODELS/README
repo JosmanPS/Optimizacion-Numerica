@@ -1,0 +1,30 @@
+Most of the model and data files in this directory are from the AMPL
+book.  The bigprod.mod, dist.*, egypt.mod, il.* and train*.* files are
+derived from Computing Science Technical Report 133 ("AMPL:  A
+Mathematical Programming Language", by Fourer, Gay, and Kernighan;
+AT&T Bell Laboratories, Jan. 1987, revised June 1989).  Both dist.*
+and egypt.mod are too big for the Student Edition to handle, but they
+contain interesting constructs.
+
+Score.mod is another example of piecewise-linear terms with a varying
+number of breakpoints.
+
+Distnode.mod is a node-and-arc variant of dist.mod.
+
+Pgon.mod and p2gon.mod are for an interesting nonlinear
+optimization problem:  find an n-gon inscribed in the
+unit circle and having maximal area.  Surprisingly, the
+solution is irregular for even n.  See "The Largest Small
+Hexagon" by R. L. Graham [J. Combinatorial Theory (A), 18 (1975),
+pp. 165-170].
+
+Files mps*.mod and awk scripts m2a and m2ai permit converting
+MPS files into AMPL input.
+
+Directory nlmodels is a collection of nonlinear models assembled
+by Elena Bobrovnikova.
+
+File data contains just "data;" and lets you type such command-
+lines as
+
+	ampl diet.mod data diet.dat -

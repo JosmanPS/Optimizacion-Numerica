@@ -1,0 +1,26 @@
+function [ ] = pcs()
+
+  % ----------------------------------------------------------
+  %
+  %             PROGRAMACIÓN CUADRÁTICA SUCESIVA
+  %
+  % ----------------------------------------------------------
+
+  % ----------------------------------------------------------
+  %
+  % DESCRIPCIÓN:
+  %
+  % Aaaaaaaaaaa
+  %
+  % AUTHOR : José Manuel Proudinat Silva
+  %
+  % FECHA  : 04/09/15
+  %
+  % ----------------------------------------------------------
+
+  % Calculamos el punto inicial
+  [Q, R] = qr(A);
+  lambda = R \ Q \ g;
+
+  % Construimos la matriz de KKT
+  KKT = [ W A' ; A zeros(n,m)];

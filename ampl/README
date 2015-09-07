@@ -1,0 +1,63 @@
+The AMPL processors and solvers in this directory are "student"
+versions that restrict problem sizes (e.g., to 300 variables and 300
+general constraints and objectives) and are intended for noncommercial
+use.  For serious commercial use, you should (eventually) license
+commercial versions, even if your applications never exceed the limits
+of the student versions.
+
+See the AMPL web site
+
+	http://www.ampl.com
+
+for extensive information about AMPL, including descriptions of
+extensions available in current versions and pointers to information
+about other solvers.
+
+Files with names ending in ".gz" were compressed by gzip, and files
+with names ending in ".tgz" are tar files compressed by gzip.
+In general, you need to decompress the *.gz files and make them
+executable.  For example, you could execute
+
+	gzip -dN ampl.gz cplex.tgz gjh.gz gurobi.tgz minos.gz snopt.gz
+	tar xf cplex.tar
+	tar xf gurobi.tar
+	chmod +x ampl gjh minos snop
+	rm cplex.tar gurobi.tar
+
+You may also need to move the files (using "mv" or "cp") to a
+directory on your search PATH.
+
+File ampl is a student version of the AMPL processor.
+On linear problems, it relaxes the size restriction to 500 x 500.
+
+File cplex is a student version of CPLEX 11.2.0 (for use with ampl).
+For pointers and more details, see files README.1st, README.cplex, and
+ampl110.pdf in directory /netlib/ampl/solvers/cplex.
+Please note that ampl110.pdf refers to "cplexamp" rather than "cplex".
+Unrestricted versions of cplex sold by ILOG/CPLEX are called
+"cplexamp" when delivered.  You are free to name things as you wish
+(with suitable changes to "option solver" lines in AMPL scripts if
+necessary).  One approach that avoids changes to AMPL scripts is to
+call the interactive CPLEX front end provided by ILOG/CPLEX "icplex"
+rather than "cplex", and to use "cplex" for the solver that works with
+AMPL.
+
+File gjh computes gradients, Jacobian matrices and Hessians of
+nonlinear problems and makes them available to AMPL as parameters.
+
+File gurobi.tgz contains a student version of the GUROBI solver
+for linear and mixed-integer problems; it limits problem sizes
+to 500 x 500, unless you have a GUROBI license that allows larger
+problem sizes -- and have set $GRB_LICENSE_FILE to the (full path)
+name of the GUROBI license file (which can be done within an AMPL
+session by an "option GRB_LICENSE_FILE ..." command).  See the
+README.gurobi file in gurobi.tgz for installation instructions.
+
+File minos is a student version of MINOS (for use with ampl).
+For pointers and more details, see files README.1st and README.minos
+in directory /netlib/ampl/solvers/minos and see web page
+http://www.ampl.com/REFS/abstracts.html#ampl-minos .
+
+File snopt is a student version of SNOPT (for use with ampl).  For
+pointers and more details, see file README in directory
+/netlib/ampl/solvers/snopt.

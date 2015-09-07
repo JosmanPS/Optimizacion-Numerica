@@ -1,0 +1,34 @@
+
+                  Contenido del directorio
+
+PCS_local.m         archivo Matlab con el ejemplo de llamadas a spamfunc
+catena.mod          modelo en AMPL con el problema de la catenaria
+bt7.mod             modelo en AMPL con un problema no convexo
+
+catena.nl           archivo con informacion sobre la estructura de f y c
+bt7.nl              archivo con informacion sobre la	estructura de f	y c
+
+spamfunc.mex64      archivo ejecutable para sistemas operativos Linux (64 bits)
+spamfunc.mexmaci64  archivo ejecutable para sistemas operativos OSX (64 bits) 
+
+
+                    Instrucciones 
+
+ 
+*** Sistemas Linux   copiar spamfunc.mex64 al directorio  /home/jmorales/bin   
+
+*** Sistemas OSX     copiar spamfunc.mex64 al directorio  /Users/jmorales/bin 
+
+**** Ambos sistemas  copiar  PCS_local.m, catena.mod, catena.nl, bt7.mod bt7.nl 
+                             al directorio de trabajo
+
+**** Declarar la trayectoria (path) en PCS_local.m
+
+                     Sistemas Linux    path(path,'/home/jmorales/bin');
+                     Sistemas OSX      path(path,'/Users/jmorales/bin');
+
+**** Probar el procedimiento PCS_local con bt7 y catena
+  
+                     >> PCS_local('catena',100, 1.0e-8)
+                     >> PCS_local('bt7',100, 1.0e-8)
+
