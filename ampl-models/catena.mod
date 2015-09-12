@@ -45,6 +45,6 @@ fix y[0] := 0.0;
 fix z[0] := 0.0;
 fix x[N+1] := length;
 
- 
+
 display f;
 display x,y,z;
