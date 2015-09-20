@@ -19,6 +19,8 @@ function [lambda] = lambda_inicial(g, A)
 % 
 % -----------------------------------------------------
 
+    % TODO (josman): Cambiar esto para matrices grandes
+    
     % Hacemos una descomposición QR para MC
     [Q, R] = qr(A');
     lambda = - Q' * g;
