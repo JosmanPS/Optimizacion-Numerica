@@ -34,7 +34,7 @@ function [p, lm, spd] = Newton(c, g, A, W)
     z = L \ b;
     z = D \ z;
     z = L' \ z;
-    z = S * (P \ z);
+    z = S * P * z;
 
     % Separamos las direcciones de descenso
     [~, w] = size(W);
