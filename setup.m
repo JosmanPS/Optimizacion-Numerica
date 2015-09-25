@@ -37,5 +37,8 @@ addpath('/home/josmanps/Projects/Optimizacion-Numerica/PCS')
 % Modelos escritos para ampl
 addpath('/home/josmanps/Projects/Optimizacion-Numerica/ampl-models')
 
-% Newton-KKT
-addpath('/home/josmanps/Projects/Optimizacion-Numerica/NewtonKKT')
+% Gradiente Conjugado
+addpath('/home/josmanps/Projects/Optimizacion-Numerica/GC')
+
+% Proyectos
+addpath('/home/josmanps/Projects/Optimizacion-Numerica/Proyectos')
