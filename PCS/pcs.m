@@ -69,10 +69,11 @@ function [ x ] = pcs(nombre, itermax, tol)
       norm_gL = norm(gL, inf);
 
       fprintf('\n ************************************************** \n');
-      fprintf('\n iter          f_k             ||c_k||       ||gL_k|| \n');
-      fprintf(' ----------------------------------------------------------- ');
-      fprintf('\n %3i    %1.11e   %1.7e   %1.7e', ...
-              iter, f, norm(c, inf), norm_gL);
+      fprintf(['\n iter          f_k             ||c_k||       ||gL_k||        ' ...
+               ' mu           alpha \n']);
+      fprintf(' ---------------------------------------------------------------------------------- ');
+      fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
+              iter, f, norm(c, inf), norm_gL, mu);
 
       while iter < itermax && norm_gL > tol
           
@@ -114,8 +115,8 @@ function [ x ] = pcs(nombre, itermax, tol)
           
           iter = iter + 1;
 
-          fprintf('\n %3i    %1.11e   %1.7e   %1.7e', ...
-                  iter, f, norm(c, inf), norm_gL);
+          fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
+                  iter, f, norm(c, inf), norm_gL, mu, alpha);
 
       end
       fprintf('\n\n')
