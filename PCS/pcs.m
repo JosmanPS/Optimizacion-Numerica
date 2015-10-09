@@ -35,12 +35,17 @@ function [ x ] = pcs(nombre, itermax, tol)
       % Evaluamos en el punto inicial
       [f, c] = spamfunc(x, 0);
       c = c - clow;
+      norm_c1 = norm(c, 1);
       [g, A] = spamfunc(x, 1);
 
       % Calculamos los multiplicadores de Lagrange iniciales
       % por medio de Mínimos Cuadrados
       % lm = lambda_inicial(g, A);
       lm = -A' \ g; 
+
+      % Agregamos los valores iniciales de la funci'on de m'erito
+      rho = 1e-1;
+      mu = norm(lm, inf);
       
       % Evaluamos el gradiente de la Lagrangeana
       gL = g - A'*lm;
@@ -72,22 +77,40 @@ function [ x ] = pcs(nombre, itermax, tol)
       while iter < itermax && norm_gL > tol
           
           % Calculamos la dirección de Newton para esta iteración
-          [p, lm, spd] = Newton(c, g, A, W);
+          [p, dlm, spd] = Newton(c, g, A, W);
 
           if not(spd)
               fprintf('\n\n   *****La inercia es incorrecta***** \n')
               break;
           end
           
+          % Calculamos los pasos
+          dlm = -dlm;
+          dlm = dlm - lm;
+          alpha = recorte(x, f, lm, W, norm_c1, p, mu);
+          
+          
           % Actualizamos
-          x = x + p;
-          lm = -lm;
+          x = x + alpha * p;
+          lm = lm + alpha * dlm;
           [f, c] = spamfunc(x, 0);
           c = c - clow;
           [g, A] = spamfunc(x, 1);
           gL = g - A'*lm;
           norm_gL = norm(gL, inf);
           [W] = spamfunc(-lm);
+
+          % Calculamos mu_k
+          pWp = p' * W * p;
+          sigma = 0;
+          if pWp > 0
+              sigma = 0.5;
+          end
+          gp = g' * p;
+          norm_c1 = norm(c, 1);
+          mu_aux = gp + sigma * pWp;
+          mu_aux = mu_aux / ( (1-rho) * norm_c1 );
+          mu = max(mu, mu_aux);
           
           iter = iter + 1;
 
