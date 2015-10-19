@@ -1,4 +1,4 @@
-function [ x ] = pcs(nombre, itermax, tol)
+function [ x, n, m, f, iter, time, spd ] = pcs(nombre, itermax, tol, verbose)
 
   % ----------------------------------------------------------
   %
@@ -54,27 +54,31 @@ function [ x ] = pcs(nombre, itermax, tol)
       % Evaluamos la Hessiana de la Lagrangeana en el punto inicial
       [W] = spamfunc(lm);
 
-      fprintf( ' Nombre del problema                      %s  \n', nombre);
-      fprintf( ' Numero de variables                    %4i \n', n);
-      fprintf( ' Numero de restricciones                %4i \n', m);
-      fprintf( ' Numero maximo de iteraciones            %4i \n', itermax);
-      fprintf( ' Tolerancia                               %8.2e \n\n', tol);   
-      fprintf( ' Objetivo en el punto inicial            % 21.15e \n', f);
-      fprintf( ' Norma de las restricciones              % 8.2e \n', norm_c_inf);
-      fprintf( ' Norma del gradiente de la Lagrangiana    %8.2e \n', norm_gL);
-
+      if verbose
+          fprintf( ' Nombre del problema                      %s  \n', nombre);
+          fprintf( ' Numero de variables                    %4i \n', n);
+          fprintf( ' Numero de restricciones                %4i \n', m);
+          fprintf( ' Numero maximo de iteraciones            %4i \n', itermax);
+          fprintf( ' Tolerancia                               %8.2e \n\n', tol);   
+          fprintf( ' Objetivo en el punto inicial            % 21.15e \n', f);
+          fprintf( ' Norma de las restricciones              % 8.2e \n', norm_c_inf);
+          fprintf( ' Norma del gradiente de la Lagrangiana    %8.2e \n', norm_gL);
+      end      
+          
       %
       % Comenzamos el proceso iterativo de Newton
       %
       iter = 0;
 
-      fprintf('\n ************************************************** \n');
-      fprintf(['\n iter          f_k             ||c_k||       ||gL_k||        ' ...
-               ' mu           alpha \n']);
-      fprintf(' ---------------------------------------------------------------------------------- ');
-      fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-              iter, f, norm_c_inf, norm_gL, mu);
-
+      if verbose
+          fprintf('\n ************************************************** \n');
+          fprintf(['\n iter          f_k             ||c_k||       ||gL_k||        ' ...
+                   ' mu           alpha \n']);
+          fprintf(' ---------------------------------------------------------------------------------- ');
+          fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
+                  iter, f, norm_c_inf, norm_gL, mu);
+      end
+          
       % Calculamos la toleracncia relativa
       tol_gL = tol * (1 + norm_gL);
       tol_c = tol * (1 + norm_c_inf);
@@ -120,27 +124,31 @@ function [ x ] = pcs(nombre, itermax, tol)
           
           iter = iter + 1;
 
-          fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-                  iter, f, norm_c_inf, norm_gL, mu, alpha);
-
+          if verbose
+              fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
+                      iter, f, norm_c_inf, norm_gL, mu, alpha);
+          end
+          
       end
       fprintf('\n\n')
-      toc
+      time = toc;
       %
       % Impresiones finales
       %
       gL = g - A'*lm;
       norm_g = norm(g, 2);
       norm_L = norm(gL, 2);
-      
-      fprintf( '\n\n\n' )
-      fprintf( 'Resultados finales \n' );
-      fprintf( '------------------- \n' )
-      fprintf( ' Objetivo en el punto final              % 21.15e \n', f);
-      fprintf( ' Norma de las restricciones              % 8.2e \n', norm(c, inf));
-      fprintf( ' Norma del gradiente de la Lagrangiana    %8.2e \n', norm_gL ...
-               );
-      fprintf( ' Número de iteraciones                      %3i \n', iter);
 
+      if verbose
+          fprintf( '\n\n\n' )
+          fprintf( 'Resultados finales \n' );
+          fprintf( '------------------- \n' )
+          fprintf( ' Objetivo en el punto final              % 21.15e \n', f);
+          fprintf( ' Norma de las restricciones              % 8.2e \n', norm(c, inf));
+          fprintf( ' Norma del gradiente de la Lagrangiana    %8.2e \n', norm_gL ...
+                   );
+          fprintf( ' Número de iteraciones                      %3i \n', iter);
+      end
+          
 end
   
