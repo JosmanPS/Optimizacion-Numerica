@@ -1,4 +1,4 @@
-function alpha = recorte(x, f, lm, W, norm_c1, p, mu, clow)
+function [ alpha, feval ] = recorte(x, f, lm, W, norm_c1, p, mu, clow)
     
     %
     %
@@ -7,6 +7,7 @@ function alpha = recorte(x, f, lm, W, norm_c1, p, mu, clow)
     alpha = 1;
     x_alpha = x + alpha * p;    
     [f_alpha, c_alpha] = spamfunc(x_alpha, 0);
+    feval = 1;
     c_alpha = c_alpha - clow;
     norm_c1_alpha = norm(c_alpha, 1);
     phi_alpha = f_alpha + mu * norm_c1_alpha;
@@ -23,6 +24,7 @@ function alpha = recorte(x, f, lm, W, norm_c1, p, mu, clow)
         alpha = alpha / 2;
         x_alpha = x + alpha * p;    
         [f_alpha, c_alpha] = spamfunc(x_alpha, 0);
+        feval = feval + 1;
         c_alpha = c_alpha - clow;
         norm_c1_alpha = norm(c_alpha, 1);
         phi_alpha = f_alpha + mu * norm_c1_alpha;

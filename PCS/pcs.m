@@ -1,4 +1,4 @@
-function [ x, n, m, f, iter, time, spd ] = pcs(nombre, itermax, tol, verbose)
+function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verbose)
 
   % ----------------------------------------------------------
   %
@@ -34,6 +34,7 @@ function [ x, n, m, f, iter, time, spd ] = pcs(nombre, itermax, tol, verbose)
 
       % Evaluamos en el punto inicial
       [f, c] = spamfunc(x, 0);
+      feval = 1;
       c = c - clow;
       norm_c1 = norm(c, 1);
       norm_c_inf = norm(c, inf);
@@ -96,13 +97,14 @@ function [ x, n, m, f, iter, time, spd ] = pcs(nombre, itermax, tol, verbose)
           % Calculamos los pasos
           dlm = -dlm;
           dlm = dlm - lm;
-          alpha = recorte(x, f, lm, W, norm_c1, p, mu, clow);
-          
+          [alpha, rec_feval] = recorte(x, f, lm, W, norm_c1, p, mu, clow);
+          feval = feval + rec_feval;
           
           % Actualizamos
           x = x + alpha * p;
           lm = lm + alpha * dlm;
           [f, c] = spamfunc(x, 0);
+          feval = feval + 1;
           c = c - clow;
           [g, A] = spamfunc(x, 1);
           gL = g - A'*lm;
