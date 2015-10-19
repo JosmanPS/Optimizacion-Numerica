@@ -88,7 +88,7 @@ function [ x ] = pcs(nombre, itermax, tol)
           % Calculamos los pasos
           dlm = -dlm;
           dlm = dlm - lm;
-          alpha = recorte(x, f, lm, W, norm_c1, p, mu);
+          alpha = recorte(x, f, lm, W, norm_c1, p, mu, clow);
           
           
           % Actualizamos
