@@ -36,6 +36,7 @@ function [ x ] = pcs(nombre, itermax, tol)
       [f, c] = spamfunc(x, 0);
       c = c - clow;
       norm_c1 = norm(c, 1);
+      norm_c_inf = norm(c, inf);
       [g, A] = spamfunc(x, 1);
 
       % Calculamos los multiplicadores de Lagrange iniciales
@@ -49,6 +50,7 @@ function [ x ] = pcs(nombre, itermax, tol)
       
       % Evaluamos el gradiente de la Lagrangeana
       gL = g - A'*lm;
+      norm_gL = norm(gL, inf);
       % Evaluamos la Hessiana de la Lagrangeana en el punto inicial
       [W] = spamfunc(lm);
 
@@ -58,24 +60,26 @@ function [ x ] = pcs(nombre, itermax, tol)
       fprintf( ' Numero maximo de iteraciones            %4i \n', itermax);
       fprintf( ' Tolerancia                               %8.2e \n\n', tol);   
       fprintf( ' Objetivo en el punto inicial            % 21.15e \n', f);
-      fprintf( ' Norma de las restricciones              % 8.2e \n', norm(c, inf));
-      fprintf( ' Norma del gradiente de la Lagrangiana    %8.2e \n', norm(gL) ...
-               );
+      fprintf( ' Norma de las restricciones              % 8.2e \n', norm_c_inf);
+      fprintf( ' Norma del gradiente de la Lagrangiana    %8.2e \n', norm_gL);
 
       %
       % Comenzamos el proceso iterativo de Newton
       %
       iter = 0;
-      norm_gL = norm(gL, inf);
 
       fprintf('\n ************************************************** \n');
       fprintf(['\n iter          f_k             ||c_k||       ||gL_k||        ' ...
                ' mu           alpha \n']);
       fprintf(' ---------------------------------------------------------------------------------- ');
       fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-              iter, f, norm(c, inf), norm_gL, mu);
+              iter, f, norm_c_inf, norm_gL, mu);
 
-      while iter < itermax && norm_gL > tol
+      % Calculamos la toleracncia relativa
+      tol_gL = tol * (1 + norm_gL);
+      tol_c = tol * (1 + norm_c_inf);
+      
+      while iter < itermax && (norm_gL > tol_gL || norm_c_inf > tol_c)
           
           % Calculamos la dirección de Newton para esta iteración
           [p, dlm, spd] = Newton(c, g, A, W);
@@ -109,6 +113,7 @@ function [ x ] = pcs(nombre, itermax, tol)
           end
           gp = g' * p;
           norm_c1 = norm(c, 1);
+          norm_c_inf = norm(c, inf);
           mu_aux = gp + sigma * pWp;
           mu_aux = mu_aux / ( (1-rho) * norm_c1 );
           mu = max(mu, mu_aux);
@@ -116,7 +121,7 @@ function [ x ] = pcs(nombre, itermax, tol)
           iter = iter + 1;
 
           fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-                  iter, f, norm(c, inf), norm_gL, mu, alpha);
+                  iter, f, norm_c_inf, norm_gL, mu, alpha);
 
       end
       fprintf('\n\n')
