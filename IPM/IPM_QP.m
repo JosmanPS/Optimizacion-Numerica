@@ -41,8 +41,7 @@ function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
 		X_inv_S = sparse(diag((1./x) .* s));
 		KKT = [ Q + X_inv_S ,         A'     ;
 		             A      ,   sparse(m, m)];
-		X_inv_F3 = X_inv * F3;
-		F = [F1 + X_inv_F3; F2];
+		F = [F1 + s; F2];
 
 		%
 		% Solve predictor system
@@ -50,7 +49,7 @@ function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
 		d = backsolve(KKT, -F);
 		dx = d(1:n);
 		dlm = -d((n+1):(n+m));
-		ds = - X_inv_S * dx - X_inv_F3;
+		ds = - X_inv_S * dx - s;
 
 		alpha_x = step(x, dx, 1);
 		alpha_s = step(s, ds, 1);
@@ -64,8 +63,7 @@ function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
 		%
 		% Corrector system
 		%
-		F3_c = F3 - sigma * mu;
-		X_inv_F3_c = X_inv * F3_c;
+		X_inv_F3_c = s - sigma * mu * 1./x;
 		F = [F1 + X_inv_F3_c; F2];
 		d = backsolve(KKT, -F);
 		dx = d(1:n);
