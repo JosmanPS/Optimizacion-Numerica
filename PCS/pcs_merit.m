@@ -1,4 +1,4 @@
-function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verbose)
+function [ x, n, m, f, iter, feval, time, spd ] = pcs_merit(nombre, itermax, tol, verbose)
 
   % ----------------------------------------------------------
   %
@@ -104,7 +104,7 @@ function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verb
           x = x + alpha * p;
           lm = lm + alpha * dlm;
           [f, c] = spamfunc(x, 0);
-          feval = feval + 1;
+          % feval = feval + 1;
           c = c - clow;
           [g, A] = spamfunc(x, 1);
           gL = g - A'*lm;
@@ -138,8 +138,8 @@ function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verb
       % Impresiones finales
       %
       gL = g - A'*lm;
-      norm_g = norm(g, 2);
-      norm_L = norm(gL, 2);
+      norm_g = norm(g, inf);
+      norm_L = norm(gL, inf);
 
       if verbose
           fprintf( '\n\n\n' )

@@ -42,3 +42,6 @@ addpath('/home/josmanps/Projects/Optimizacion-Numerica/GC')
 
 % Proyectos
 addpath('/home/josmanps/Projects/Optimizacion-Numerica/Proyectos')
+
+% Gradiente Conjugado Proyectado
+addpath('/home/josmanps/Projects/Optimizacion-Numerica/Projected_CG')

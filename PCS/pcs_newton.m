@@ -1,4 +1,4 @@
-function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verbose)
+function [ x, n, m, f, iter, feval, time, spd ] = pcs_newton(nombre, itermax, tol, verbose)
 
   % ----------------------------------------------------------
   %
@@ -36,7 +36,6 @@ function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verb
       [f, c] = spamfunc(x, 0);
       feval = 1;
       c = c - clow;
-      norm_c1 = norm(c, 1);
       norm_c_inf = norm(c, inf);
       [g, A] = spamfunc(x, 1);
 
@@ -44,10 +43,6 @@ function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verb
       % por medio de Mínimos Cuadrados
       % lm = lambda_inicial(g, A);
       lm = -A' \ g; 
-
-      % Agregamos los valores iniciales de la funci'on de m'erito
-      rho = 1e-1;
-      mu = norm(lm, inf);
       
       % Evaluamos el gradiente de la Lagrangeana
       gL = g - A'*lm;
@@ -73,11 +68,10 @@ function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verb
 
       if verbose
           fprintf('\n ************************************************** \n');
-          fprintf(['\n iter          f_k             ||c_k||       ||gL_k||        ' ...
-                   ' mu           alpha \n']);
-          fprintf(' ---------------------------------------------------------------------------------- ');
-          fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-                  iter, f, norm_c_inf, norm_gL, mu);
+          fprintf('\n iter          f_k             ||c_k||       ||gL_k||      \n  ');
+          fprintf('---------------------------------------------------------- ');
+          fprintf('\n %3i    %1.11e   %1.5e   %1.5e', ...
+                  iter, f, norm_c_inf, norm_gL);
       end
           
       % Calculamos la toleracncia relativa
@@ -92,43 +86,25 @@ function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verb
           if not(spd)
               fprintf('\n\n   *****La inercia es incorrecta***** \n')
               break;
-          end
-          
-          % Calculamos los pasos
-          dlm = -dlm;
-          dlm = dlm - lm;
-          [alpha, rec_feval] = recorte(x, f, lm, W, norm_c1, p, mu, clow);
-          feval = feval + rec_feval;
+          end                 
           
           % Actualizamos
-          x = x + alpha * p;
-          lm = lm + alpha * dlm;
+          x = x + p;
+          lm = -dlm;
           [f, c] = spamfunc(x, 0);
           feval = feval + 1;
           c = c - clow;
+          norm_c_inf = norm(c, inf);
           [g, A] = spamfunc(x, 1);
           gL = g - A'*lm;
           norm_gL = norm(gL, inf);
           [W] = spamfunc(-lm);
-
-          % Calculamos mu_k
-          pWp = p' * W * p;
-          sigma = 0;
-          if pWp > 0
-              sigma = 0.5;
-          end
-          gp = g' * p;
-          norm_c1 = norm(c, 1);
-          norm_c_inf = norm(c, inf);
-          mu_aux = gp + sigma * pWp;
-          mu_aux = mu_aux / ( (1-rho) * norm_c1 ) + 0.1;
-          mu = max(mu, mu_aux);
           
           iter = iter + 1;
 
           if verbose
-              fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-                      iter, f, norm_c_inf, norm_gL, mu, alpha);
+              fprintf('\n %3i    %1.11e   %1.5e   %1.5e', ...
+                      iter, f, norm_c_inf, norm_gL);
           end
           
       end
@@ -138,8 +114,9 @@ function [ x, n, m, f, iter, feval, time, spd ] = pcs(nombre, itermax, tol, verb
       % Impresiones finales
       %
       gL = g - A'*lm;
-      norm_g = norm(g, 2);
-      norm_L = norm(gL, 2);
+      norm_g = norm(g, inf);
+      norm_L = norm(gL, inf);
+      norm_c_inf = norm(c, inf);
 
       if verbose
           fprintf( '\n\n\n' )
