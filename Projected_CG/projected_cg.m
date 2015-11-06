@@ -1,4 +1,4 @@
-function [ x, iter, feval ] = projected_cg(x, G, c, A, b, maxiter, tol)
+function [ x, iter ] = projected_cg(x, G, c, A, b, maxiter, tol)
     
     % ----------------------------------------------------------
     %
@@ -41,18 +41,20 @@ function [ x, iter, feval ] = projected_cg(x, G, c, A, b, maxiter, tol)
     r = G * x + c;
     % Generamos la matriz que nos ayudará a encontrar la solución proyectada
     K = [ speye(n),       A'      ;
-          A       ,  sparse(m, m)];
+          A       ,  0 * speye(m)];
     k = [r; sparse(m, 1)];
     g = backsolve(K, k);
     g = g(1:n);
     d = -g;
     norm_g = norm(g, inf);
+    rg = r' * g;
+    sqrt_r0_y0 = sqrt(rg);
+    err_rel = 1;
     
-    while iter <= maxiter && norm_g > tol;
+    while iter <= maxiter &&  err_rel > tol;
 
         Gd = G * d;
         dGd = d' * Gd;
-        rg = r' * g;
         alpha = rg / dGd;
 
         x = x + alpha * d;
@@ -61,11 +63,14 @@ function [ x, iter, feval ] = projected_cg(x, G, c, A, b, maxiter, tol)
         k = [r; sparse(m, 1)];
         g = backsolve(K, k);
         g = g(1:n);
-        d = -g;
         norm_g = norm(g, inf);
 
         beta = (r' * g) / rg;
         d = -g + beta * d;
+        rg = r' * g;
+        err_rel = sqrt(rg) / sqrt_r0_y0;
+
+        iter = iter + 1;
 
     end
     
