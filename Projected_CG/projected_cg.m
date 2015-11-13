@@ -75,4 +75,3 @@ function [ x, iter ] = projected_cg(x, G, c, A, b, maxiter, tol)
     end
     
 end
-

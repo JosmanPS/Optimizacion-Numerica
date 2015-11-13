@@ -8,6 +8,7 @@ maxiter = 400;
 tol = 1e-6;
 
 G = gallery('poisson', n);
+G = sparse(G);
 A = G(1:m, :);
 n = n^2;
 
