@@ -1,4 +1,4 @@
-function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
+function [ x, lm, s ] = IPM_QP_plotP(Q, c, A, b, tol, maxiter)
 
 	% ---------------------------------------------------------------
 	%
@@ -17,8 +17,8 @@ function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
 	x = ones(n, 1);
 	s = x;
 	lm = A' \ (Q*x - s + c);
-	mu = (x' * s) / n;
-	d_gap = mu;
+	d_gap = (x' * s) / n;
+	mu = d_gap;
 	F1 = Q*x - A'*lm - s + c;
 	F2 = A*x - b;
 	F3 = x .* s;
@@ -31,6 +31,8 @@ function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
 	fprintf('iter   ||F1||      ||F2||      ||F3||         OBJ            mu         alpha \n');
 	fprintf('------------------------------------------------------------------------------------------- \n');
 	fprintf('%3i  %1.4e  %1.4e  %1.4e  %1.7e  %1.4e \n', iter, norm(F1), norm(F2), norm(F3), obj, mu);
+
+	hold on
 
 	while d_gap > tol && iter < maxiter
 
@@ -59,7 +61,7 @@ function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
 		%
 		% Compute the gap
 		%
-		mu = 10^(-iter);
+		mu = 10^(-iter*0.01);
 
 		%
 		% Update
@@ -77,10 +79,14 @@ function [ x, lm, s ] = IPM_QP(Q, c, A, b, tol, maxiter)
 		iter = iter + 1;
 
 		%
+		% Plot
+		%
+		plot([x(1)], [x(2)])
+
+		%
 		% Print
 		%
 		fprintf('%3i  %1.4e  %1.4e  %1.4e  %1.7e  %1.4e  %1.4e \n', iter, norm(F1), norm(F2), norm(F3), obj, mu, alpha);
 
 	end
-
 end
