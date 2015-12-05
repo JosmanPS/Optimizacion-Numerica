@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/airport 
+ Problem dimensions: n_x =   84;	m   =  210            
+                     n_s =  210;	m_e =    0            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ...............  0.00000000e+00   
+ Barrier     ............... -2.90125722e+01   
+ ||c||_2     ...............  1.03700000e+02   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    0.0000000e+00    -2.9012572e+01    1.80000e-02    1.03700e+02    1.00000e-01 
