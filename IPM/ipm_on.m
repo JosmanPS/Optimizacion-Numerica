@@ -90,7 +90,11 @@ function IPM =  ipm_on ( name, TOL , maxiter );
     A_g = A(1:n_x, (m_e+1):size(A, 2));
     lm_h = y(1:m_e);
     lm_g = y((m_e+1):end);
+    inertia_n = n_s + n_x;
+    inertia_m = m;
+    
     iter = 0;
+    in_iter = 0;
 
     %
     % Logarithmic barrier infeasibility
@@ -118,7 +122,97 @@ function IPM =  ipm_on ( name, TOL , maxiter );
     % Start iterative Newton
     %
     while (norm_gL > tol1 || infeas > tol2) && iter < maxiter
+        
+        %
+        % Create the subproblem
+        %
+        S = spdiags(s, 0, n_s, n_s);
+        S_inv = spdiags(1./s, 0, n_s, n_s);
+
+        bar_iter = 0;
+        S_obj = -mu * e;
+        Ss = S * lm_g + S_obj;
+        norm_G = norm([gL; S_inv * Ss], inf);
+        obj = -[g; S_obj; c_h; c_g];
+        tol3 = mu * max(norm_G, infeas);
+
+        %
+        % Solve IPM subproblem
+        %
+        while (infeas > tol3 || norm_G > tol3) && bar_iter < maxbar
+
+            %
+            % Compute the KKT matrix
+            %
+            L_g = spdiags(lm_g, 0, n_s, n_s);
+            WW = [W, sparse(n_x, n_s); sparse(n_s, n_x), S*L_g];
+            KKT = [WW, A; A', sparse(m, m)];
+
+            %
+            % Solve KKT and check for good inertia
+            %
+            [d, neg, ran] = backsolve(KKT, obj);
+            inertia = (neg==inertia_m && ran==(inertia_n + inertia_m));
+
+            if not(inertia)
+                warning('*** Incorrect Inertia ***');
+                return;
+            end
+
+            %
+            % Split and cut the directions
+            %
+            dx = d(1:n_x);
+            ds = S * d((n_x + 1):(n_x + n_s));
+            dy = d((n_x + n_s + 1):end) - y;
+            dlg = d((n_x + n_s + m_e + 1):end) - lm_g;
+
+            alpha_s = step(s, ds, 0.995);
+            alpha_lg = step(lm_g, dlg, 0.995);
+
+            %
+            % Update variables
+            %
+            x = x + alpha_s * dx;
+            s = s + alpha_s * ds;
+            y = y + alpha_lg * dy;
+
+            %
+            % Compute and update the subproblem
+            %
+            S = spdiags(s, 0, n_s, n_s);
+            S_inv = spdiags(1./s, 0, n_s, n_s);
+
+            [ f, c, g, A, W ] = feval (fungrad, x, s, y );
+            c_h = c(1:m_e); 
+            c_g = c((m_e+1):end);
+            A_h = A(1:n_x, 1:m_e);
+            A_g = A(1:n_x, (m_e+1):size(A, 2));
+            lm_h = y(1:m_e);
+            lm_g = y((m_e+1):end);
+
+            gL = g + [A_h A_g] * y;
+
+            S_obj = -mu * e;
+            Ss = S * lm_g + S_obj;
+
+            obj = -[g; S_obj; c_h; c_g]; % Lado derecho del sistema KKT.
+            infeas = norm(c, inf);
+            bar = f - mu * sum(log( s ));
+            norm_gL = norm(gL, inf);
+            norm_G = norm([gL; S_inv * Ss], inf);
+
+            bar_iter = bar_iter + 1;
+            in_iter = in_iter + 1;
+
+            fprintf(fout1, '%5i    %1.7e    %1.7e    %1.5e    %1.5e    %1.5e \n', ...
+                    in_iter, f, bar, norm_gL, infeas, mu);
+
+        end
+
+        mu = mu * factor;
         iter = iter + 1;
+
     end
 
 end
