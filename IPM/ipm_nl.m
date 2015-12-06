@@ -1,5 +1,5 @@
 %
-function IPM =  ipm_on ( name, TOL , maxiter );
+function IPM =  ipm_nl ( name, TOL , maxiter );
     
     %--------------------------------------------------------------------------
     %   
@@ -43,7 +43,7 @@ function IPM =  ipm_on ( name, TOL , maxiter );
     %
     % ... open output file
     %
-    name = strcat('/home/josmanps/Projects/Optimizacion-Numerica/ampl-models/', name);
+    name = strcat('/home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/', name);
     name1 = strcat(name,'.out1'); fout1 = fopen(name1,'w');   
     %
     % ... get initial point from stub; compute initial values: 
@@ -54,7 +54,7 @@ function IPM =  ipm_on ( name, TOL , maxiter );
     %
     % INITIAL VALUES
     %
-    [ x, s, y ] = feval ( point );
+    [ x, s, y ] = feval ( point, stub );
     % 
     n_x = length(x);        % ... number of variables
     n_s = length(s);        % ... number of slacks
@@ -75,8 +75,8 @@ function IPM =  ipm_on ( name, TOL , maxiter );
     %
     mu = mu0;
 
-    infeas  = norm(c,2);  
-    bar  = f  - mu*log( s )'*e;
+    [ f, c, g, A, ~ ] = feval (fungrad, x, s, y );
+
 
     y = Lagrange( A, s, mu, g, e );
 
@@ -156,6 +156,7 @@ function IPM =  ipm_on ( name, TOL , maxiter );
 
             if not(inertia)
                 warning('*** Incorrect Inertia ***');
+                clearvars -global gAmplStub
                 return;
             end
 
@@ -214,6 +215,8 @@ function IPM =  ipm_on ( name, TOL , maxiter );
         iter = iter + 1;
 
     end
+
+    clearvars -global gAmplStub
 
 end
 %

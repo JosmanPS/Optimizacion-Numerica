@@ -1,10 +1,10 @@
-function [x,s,l] = amplpnt;
+function [x,s,l] = amplpnt(stub);
 
 global gAmplStub x0 y0 s0
 
-if( isempty( gAmplStub ) )
+ if( isempty( gAmplStub ) )
     while( 1 ) 
-	stub = input( 'Choose an ampl stub file : ', 's' );
+	% stub = input( 'Choose an ampl stub file : ', 's' );
 	if( exist( stub ) ) 
 	    break;
 	else
