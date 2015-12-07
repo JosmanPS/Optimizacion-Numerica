@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/polak1 
+ Problem dimensions: n_x =    3;	m   =    2            
+                     n_s =    2;	m_e =    0            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ...............  0.00000000e+00   
+ Barrier     ...............  4.60517019e-01   
+ ||c||_2     ...............  3.67898445e+01   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    0.0000000e+00    4.6051702e-01    9.98000e-01    3.67898e+01    1.00000e-01 

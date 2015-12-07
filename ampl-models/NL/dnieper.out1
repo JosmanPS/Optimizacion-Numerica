@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/dnieper 
+ Problem dimensions: n_x =   57;	m   =  136            
+                     n_s =  112;	m_e =   24            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ............... -8.91019272e+02   
+ Barrier     ............... -8.86455771e+02   
+ ||c||_2     ...............  1.54620000e+01   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    -8.9101927e+02    -8.8645577e+02    3.99214e+01    1.54620e+01    1.00000e-01 

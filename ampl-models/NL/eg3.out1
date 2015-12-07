@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/eg3 
+ Problem dimensions: n_x =  101;	m   =  400            
+                     n_s =  399;	m_e =    1            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ...............  0.00000000e+00   
+ Barrier     ............... -4.25763970e+00   
+ ||c||_2     ...............  1.10000000e+00   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    0.0000000e+00    -4.2576397e+00    2.14925e+00    1.10000e+00    1.00000e-01 

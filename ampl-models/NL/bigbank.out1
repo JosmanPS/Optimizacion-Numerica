@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/bigbank 
+ Problem dimensions: n_x = 1773;	m   = 2180            
+                     n_s = 1366;	m_e =  814            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ............... -5.19441517e+03   
+ Barrier     ............... -4.94361183e+03   
+ ||c||_2     ...............  1.00000000e-01   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    -5.1944152e+03    -4.9436118e+03    2.62117e+01    1.00000e-01    1.00000e-01 

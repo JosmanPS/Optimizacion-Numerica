@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/gausselm 
+ Problem dimensions: n_x = 1495;	m   = 4215            
+                     n_s = 2975;	m_e = 1240            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ............... -1.00000000e+00   
+ Barrier     ...............  1.83268556e+01   
+ ||c||_2     ...............  1.00000000e-01   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    -1.0000000e+00    1.8326856e+01    1.69472e+01    1.00000e-01    1.00000e-01 

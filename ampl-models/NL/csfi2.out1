@@ -1,0 +1,20 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/csfi2 
+ Problem dimensions: n_x =    5;	m   =   10            
+                     n_s =    8;	m_e =    2            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ...............  5.00000000e-01   
+ Barrier     ...............  8.46673640e-01   
+ ||c||_2     ...............  2.34241784e+02   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    5.0000000e-01    8.4667364e-01    1.80059e+00    2.34242e+02    1.00000e-01 
+    1    5.0060189e-01    1.3398333e+00    1.79511e+00    2.33945e+02    1.00000e-01 

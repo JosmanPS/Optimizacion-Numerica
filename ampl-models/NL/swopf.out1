@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/swopf 
+ Problem dimensions: n_x =   82;	m   =  111            
+                     n_s =   34;	m_e =   77            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ...............  2.50000000e-02   
+ Barrier     ............... -2.75318400e-01   
+ ||c||_2     ...............  4.33800000e+00   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    2.5000000e-02    -2.7531840e-01    2.01107e+00    4.33800e+00    1.00000e-01 

@@ -1,0 +1,19 @@
+
+ An Interior Point Method solving problem: /home/josmanps/Projects/Optimizacion-Numerica/ampl-models/NL/minperm 
+ Problem dimensions: n_x = 1113;	m   = 2246            
+                     n_s = 1213;	m_e = 1033            
+                                                      
+ Parameters:         factor ................. 1.0e-01   
+                     mu0 .................... 1.0e-01   
+                     maxbar .................   10     
+                     Step lengths ........... Separate      
+                                                     
+ Objective   ...............  0.00000000e+00   
+ Barrier     ...............  2.56277721e+02   
+ ||c||_2     ...............  1.00000000e+00   
+
+
+
+   iter        f            f - logbar        || gL ||       || c ||           mu 
+--------------------------------------------------------------------------------------
+    0    0.0000000e+00    2.5627772e+02    1.00100e+00    1.00000e+00    1.00000e-01 

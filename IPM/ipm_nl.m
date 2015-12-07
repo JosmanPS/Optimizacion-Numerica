@@ -1,5 +1,5 @@
 %
-function IPM =  ipm_nl ( name, TOL , maxiter );
+function [n_x, m, in_iter, f, infeas, inertia] =  ipm_nl ( name, TOL , maxiter );
     
     %--------------------------------------------------------------------------
     %   
@@ -155,7 +155,7 @@ function IPM =  ipm_nl ( name, TOL , maxiter );
             inertia = (neg==inertia_m && ran==(inertia_n + inertia_m));
 
             if not(inertia)
-                warning('*** Incorrect Inertia ***');
+                % warning('*** Incorrect Inertia ***');
                 clearvars -global gAmplStub
                 return;
             end
