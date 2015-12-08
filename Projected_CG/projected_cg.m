@@ -12,8 +12,8 @@ function [ x, iter ] = projected_cg(x, G, c, A, b, maxiter, tol)
     %
     % El objetivo es resolver el problema:
     %
-    %                    min    1/2 p' G p + p' g
-    %                    s.a.   A p + c = 0       
+    %                    min    1/2 p' G p + c' g
+    %                    s.a.   A p = b       
     % 
     % Donde A es de m x n, con m < n.
     % Para resolver este problema se utiliza la teoría de Gradiente
