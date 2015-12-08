@@ -1,4 +1,4 @@
-function x = PCS_RC(name, TOL, maxiter)
+function [n, m, iter, f, norm_gL, norm_c] = PCS_RC(name, TOL, maxiter, verbose)
 
     nameAMPL = strcat('/home/josmanps/Projects/Optimizacion-Numerica/ampl-models/', name);
     nameAMPL = strcat(nameAMPL, '.nl');
@@ -48,11 +48,13 @@ function x = PCS_RC(name, TOL, maxiter)
 
     iter = 0;
 
-    fprintf(['\n iter          f_k             ||c_k||       ||gL_k||        ' ...
-            ' mu           delta \n']);
-    fprintf(' ---------------------------------------------------------------------------------- ');
-    fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-            iter, f, norm_c, norm_gL, mu, delta);
+    if verbose
+        fprintf(['\n iter          f_k             ||c_k||       ||gL_k||        ' ...
+                ' mu           delta \n']);
+        fprintf(' ---------------------------------------------------------------------------------- ');
+        fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
+                iter, f, norm_c, norm_gL, mu, delta);
+    end
 
     while iter < maxiter
 
@@ -60,7 +62,7 @@ function x = PCS_RC(name, TOL, maxiter)
         % Check for optimality
         %
 
-        if norm_gL < TOL1 && norm_c < TOL2
+        if (norm_gL < TOL1 && norm_c < TOL2) || delta < 1e-4
             return;
         end
 
@@ -109,6 +111,7 @@ function x = PCS_RC(name, TOL, maxiter)
 
             % Update
             x = x + p;
+
             f = ff;
             c = cc;
             g = gg;
@@ -140,8 +143,10 @@ function x = PCS_RC(name, TOL, maxiter)
 
         iter = iter + 1;
 
-        fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
-                iter, f, norm_c, norm_gL, mu, delta);
+        if verbose
+            fprintf('\n %3i    %1.11e   %1.5e   %1.5e   %1.5e   %1.5e', ...
+                    iter, f, norm_c, norm_gL, mu, delta);
+        end
 
     end
 
